@@ -21,11 +21,3 @@ Ayurveda/
 ├── script.js           # JavaScript functionality
 ├── deploy.sh           # Deployment helper script
 └── README.md           # This file
-```
-## Contact Information
-
-**Dr. Praveen Rustagi**
-- **Phone**: +91 9654136674
-- **Address**: 80/66, Shop No 2, Near Gurudwara, Opposite Gurudwara School, Malviya Nagar, Delhi
-- **Timings**: Mon-Sat 10:00 AM - 12:30 PM, 05:00 PM - 07:00 PM
-- **Consultation Fee**: ₹500

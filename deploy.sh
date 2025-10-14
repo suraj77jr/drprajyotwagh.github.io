@@ -114,6 +114,6 @@ esac
 echo ""
 echo "🎉 Deployment instructions completed!"
 echo ""
-echo "📞 For support, contact: +91 9654136674"
+echo "📞 For support, contact: +91 9970952725"
 echo "🌐 Website: Adopt The Ayurveda"
 echo "" 

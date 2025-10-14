@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // On desktop, show a message
             if (!/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 e.preventDefault();
-                showAlert('Please call us at +91 9654136674', 'info');
+                showAlert('Please call us at +91 9970952725', 'info');
             }
         });
     });
@@ -311,10 +311,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof emailjs === 'undefined') {
             console.error('EmailJS is not loaded!');
             console.error('This is common on GitHub Pages due to CORS restrictions');
-            showAlert('Email service is temporarily unavailable. Please call us directly at +91 9654136674 or try again later.', 'danger');
+            showAlert('Email service is temporarily unavailable. Please call us directly at +91 9970952725 or try again later.', 'danger');
             // Show fallback contact info
             setTimeout(() => {
-                showAlert('Alternative: You can also WhatsApp us at +91 9654136674', 'info');
+                showAlert('Alternative: You can also WhatsApp us at +91 9970952725', 'info');
             }, 3000);
             return;
         }
@@ -371,8 +371,8 @@ Appointment Request Details:
 • Message: ${message || 'No additional message'}
 
 Please contact us using one of these methods:
-• Call: +91 9654136674
-• WhatsApp: +91 9654136674
+• Call: +91 9970952725
+• WhatsApp: +91 9970952725
 • Email: aditya.rustagi54@gmail.com
         `;
         
@@ -395,7 +395,7 @@ Email: ${email || 'Not provided'}
 Service: ${service || 'Not specified'}
 Message: ${message || 'No additional message'}`;
             
-            const whatsappUrl = `https://wa.me/919654136674?text=${encodeURIComponent(whatsappMessage)}`;
+            const whatsappUrl = `https://wa.me/919970952725?text=${encodeURIComponent(whatsappMessage)}`;
             
             // Show WhatsApp option
             const whatsappAlert = document.createElement('div');
@@ -422,7 +422,7 @@ Message: ${message || 'No additional message'}`;
     // Add WhatsApp integration (optional)
     function addWhatsAppButton() {
         const whatsappButton = document.createElement('a');
-        whatsappButton.href = 'https://wa.me/919654136674?text=Hi, I would like to book an appointment with Dr. Praveen Rustagi';
+        whatsappButton.href = 'https://wa.me/919970952725?text=Hi, I would like to book an appointment with Dr. Praveen Rustagi';
         whatsappButton.className = 'btn btn-success position-fixed';
         whatsappButton.style.cssText = 'bottom: 20px; right: 20px; z-index: 1000; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);';
         whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i>';
