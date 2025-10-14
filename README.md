@@ -1,6 +1,6 @@
-# Adopt The Ayurveda - Dr. Praveen Rustagi Clinic Website
+# Adopt The Ayurveda - Dr. Prajyot Wagh Clinic Website
 
-A modern, responsive website for Dr. Praveen Rustagi's Ayurveda and Nutrition clinic located in Malviya Nagar, Delhi.
+A modern, responsive website for Dr. Prajyot Wagh's Ayurveda and Nutrition clinic located in Malviya Nagar, Delhi.
 
 ## Features
 
