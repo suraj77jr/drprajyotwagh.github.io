@@ -23,16 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar background change on scroll
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('bg-white', 'shadow');
-        } else {
-            navbar.classList.remove('bg-white', 'shadow');
-        }
-    });
-
     // Form handling
     const appointmentForm = document.getElementById('appointmentForm');
     if (appointmentForm) {
@@ -40,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             // Get form data
-            const formData = new FormData(this);
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
