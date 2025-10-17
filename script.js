@@ -1,20 +1,31 @@
+//  Combined script.js (includes email config)
+
+// === Formspree Configuration ===
+const FORMSPREE_CONFIG = {
+    ENDPOINT: 'https://formspree.io/f/xovkybqp',
+    TO_EMAIL: 'suraj77jr@gmail.com'
+};
+
+// === Active Email Method ===
+const ACTIVE_EMAIL_METHOD = 'formspree';
+
 // Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // Simple navigation - let browser handle it naturally with CSS smooth scrolling
     const navLinks = document.querySelectorAll('a[href^="#"]');
     console.log('Found navigation links:', navLinks.length);
-    
+
     navLinks.forEach((link, index) => {
         console.log(`Link ${index}:`, link.href, link.textContent.trim());
-        
+
         // Just add a click handler for logging, but don't prevent default behavior
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-            
+
             console.log('Clicked link:', targetId, 'Target section:', targetSection);
-            
+
             if (targetSection) {
                 console.log('Target section found, browser will handle navigation');
             } else {
@@ -23,55 +34,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form handling
-    const appointmentForm = document.getElementById('appointmentForm');
-    if (appointmentForm) {
-        appointmentForm.addEventListener('submit', function(e) {
+    // Form handling via Formspree
+    if (ACTIVE_EMAIL_METHOD === 'formspree') {
+        const form = document.getElementById('appointmentForm');
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Get form data
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const service = document.getElementById('service').value;
-            const message = document.getElementById('message').value;
-            
-            // Basic validation
-            if (!name || !phone) {
-                showAlert('Please fill in all required fields.', 'danger');
-                return;
+            const formData = new FormData(form);
+            formData.append('_subject', `Appointment Request from ${formData.get('name')}`);
+            formData.append('_to', FORMSPREE_CONFIG.TO_EMAIL);
+            try {
+                const res = await fetch(FORMSPREE_CONFIG.ENDPOINT, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                showAlert(res.ok ? 'Sent successfully!' : 'Failed to send.', res.ok ? 'success' : 'danger');
+                if (res.ok) form.reset();
+            } catch {
+                showAlert('Network issue. Please try again.', 'danger');
             }
-            
-            // Phone number validation (basic)
-            const phoneRegex = /^[0-9+\-\s()]{10,}$/;
-            if (!phoneRegex.test(phone)) {
-                showAlert('Please enter a valid phone number.', 'danger');
-                return;
-            }
-            
-            // Email validation (if provided)
-            if (email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    showAlert('Please enter a valid email address.', 'danger');
-                    return;
-                }
-            }
-            
-            // Send email using EmailJS or similar service
-            console.log('Form submitted successfully, calling sendAppointmentEmail...');
-            sendAppointmentEmail(name, phone, email, service, message);
-            
-            // Reset form
-            this.reset();
-            
-            // Scroll to contact section to show success message
-            setTimeout(() => {
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                    contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 500);
         });
     }
 
@@ -82,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (existingAlert) {
             existingAlert.remove();
         }
-        
+
         // Create alert element
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
@@ -90,13 +71,13 @@ document.addEventListener('DOMContentLoaded', function() {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-        
+
         // Insert alert before the form
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
             contactForm.insertBefore(alertDiv, contactForm.firstChild);
         }
-        
+
         // Auto-dismiss after 5 seconds
         setTimeout(() => {
             if (alertDiv.parentNode) {
@@ -111,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('loading');
@@ -129,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function animateCounter(element, target, duration = 2000) {
         let start = 0;
         const increment = target / (duration / 16);
-        
+
         function updateCounter() {
             start += increment;
             if (start < target) {
@@ -139,12 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.textContent = target + '+';
             }
         }
-        
+
         updateCounter();
     }
 
     // Trigger counter animation when statistics section is visible
-    const statsObserver = new IntersectionObserver(function(entries) {
+    const statsObserver = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const counters = entry.target.querySelectorAll('.stat-item h3');
@@ -165,12 +146,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const navbarToggler = document.querySelector('.navbar-toggler');
     const navbarCollapse = document.querySelector('.navbar-collapse');
-    
+
     if (navbarToggler && navbarCollapse) {
         // Close mobile menu when clicking on a link
         const mobileNavLinks = navbarCollapse.querySelectorAll('.nav-link');
         mobileNavLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function () {
                 if (window.innerWidth < 992) {
                     navbarCollapse.classList.remove('show');
                 }
@@ -198,11 +179,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contact form field validation
     const formFields = document.querySelectorAll('#appointmentForm input, #appointmentForm select, #appointmentForm textarea');
     formFields.forEach(field => {
-        field.addEventListener('blur', function() {
+        field.addEventListener('blur', function () {
             validateField(this);
         });
-        
-        field.addEventListener('input', function() {
+
+        field.addEventListener('input', function () {
             if (this.classList.contains('is-invalid')) {
                 validateField(this);
             }
@@ -211,16 +192,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateField(field) {
         const value = field.value.trim();
-        
+
         // Remove existing validation classes
         field.classList.remove('is-valid', 'is-invalid');
-        
+
         // Validate based on field type
         if (field.hasAttribute('required') && !value) {
             field.classList.add('is-invalid');
             return false;
         }
-        
+
         if (field.type === 'email' && value) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(value)) {
@@ -228,19 +209,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
         }
-        
+
         if (field.type === 'tel' && value) {
-            const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+            const phoneRegex = /^[0-9\-\s()]{10,}$/;
             if (!phoneRegex.test(value)) {
                 field.classList.add('is-invalid');
                 return false;
             }
         }
-        
+
         if (value) {
             field.classList.add('is-valid');
         }
-        
+
         return true;
     }
 
@@ -257,11 +238,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Service cards hover effect enhancement
     const serviceCards = document.querySelectorAll('.service-card');
     serviceCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-10px) scale(1.02)';
         });
-        
-        card.addEventListener('mouseleave', function() {
+
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
@@ -269,11 +250,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Review cards hover effect enhancement
     const reviewCards = document.querySelectorAll('.review-card');
     reviewCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-5px) scale(1.01)';
         });
-        
-        card.addEventListener('mouseleave', function() {
+
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
@@ -281,132 +262,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click-to-call functionality
     const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
     phoneLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             // On mobile, this will open the phone app
             // On desktop, show a message
             if (!/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 e.preventDefault();
-                showAlert('Please call us at +91 9970952725', 'info');
+                showAlert('Please call us at +91 99709 52725', 'info');
             }
         });
     });
-
-    // Function to send appointment email using EmailJS
-    function sendAppointmentEmail(name, phone, email, service, message) {
-        console.log('Starting email send process...');
-        console.log('Form data:', { name, phone, email, service, message });
-        
-        // Check if EmailJS is loaded
-        if (typeof emailjs === 'undefined') {
-            console.error('EmailJS is not loaded!');
-            console.error('This is common on GitHub Pages due to CORS restrictions');
-            showAlert('Email service is temporarily unavailable. Please call us directly at +91 9970952725 or try again later.', 'danger');
-            // Show fallback contact info
-            setTimeout(() => {
-                showAlert('Alternative: You can also WhatsApp us at +91 9970952725', 'info');
-            }, 3000);
-            return;
-        }
-        
-        // Additional check for EmailJS initialization
-        if (!emailjs.init) {
-            console.error('EmailJS is loaded but init function is not available');
-            showAlert('Email service is not properly initialized. Please try again or contact us directly.', 'danger');
-            return;
-        }
-        
-        // Initialize EmailJS with your User ID
-        console.log('Initializing EmailJS with User ID: PTTVqZgqFup6EbJwz');
-        emailjs.init("PTTVqZgqFup6EbJwz");
-        
-        // EmailJS template parameters
-        const templateParams = {
-            to_email: "aditya.rustagi54@gmail.com",
-            from_name: name,
-            from_phone: phone,
-            from_email: email || "Not provided",
-            service_required: service || "Not specified",
-            message: message || "No additional message",
-            subject: `New Appointment Request - ${name}`,
-            reply_to: email || "adopt.ayurveda.service@gmail.com"
-        };
-        
-        console.log('Template parameters:', templateParams);
-        console.log('Sending email with service_h24b69s and template_yj5h4d4');
-        
-        // Send email using EmailJS with your service and template IDs
-        emailjs.send("service_h24b69s", "template_yj5h4d4", templateParams)
-            .then(function(response) {
-                console.log('Email sent successfully:', response);
-                showAlert('Thank you! Your appointment request has been sent successfully. We will contact you soon.', 'success');
-            }, function(error) {
-                console.error('EmailJS failed with error:', error);
-                console.error('Error details:', JSON.stringify(error, null, 2));
-                showAlert('There was an error sending your request. Please try again or call us directly.', 'danger');
-                // Fallback to mailto if EmailJS fails
-                fallbackEmailMethod(name, phone, email, service, message);
-            });
-    }
-    
-    // Fallback email method - improved for better user experience
-    function fallbackEmailMethod(name, phone, email, service, message) {
-        // Instead of mailto, show a user-friendly message with contact options
-        const contactInfo = `
-Appointment Request Details:
-• Name: ${name}
-• Phone: ${phone}
-• Email: ${email || 'Not provided'}
-• Service: ${service || 'Not specified'}
-• Message: ${message || 'No additional message'}
-
-Please contact us using one of these methods:
-• Call: +91 9970952725
-• WhatsApp: +91 9970952725
-• Email: aditya.rustagi54@gmail.com
-        `;
-        
-        // Show a modal or alert with contact information
-        showAlert('Email service is temporarily unavailable. Please contact us directly:', 'warning');
-        
-        // Show contact details after a short delay
-        setTimeout(() => {
-            showAlert(contactInfo, 'info');
-        }, 2000);
-        
-        // Also provide WhatsApp option
-        setTimeout(() => {
-            const whatsappMessage = `Hi, I would like to book an appointment with Dr. Prajyot Wagh.
-
-My details:
-Name: ${name}
-Phone: ${phone}
-Email: ${email || 'Not provided'}
-Service: ${service || 'Not specified'}
-Message: ${message || 'No additional message'}`;
-            
-            const whatsappUrl = `https://wa.me/919970952725?text=${encodeURIComponent(whatsappMessage)}`;
-            
-            // Show WhatsApp option
-            const whatsappAlert = document.createElement('div');
-            whatsappAlert.className = 'alert alert-success alert-dismissible fade show mt-3';
-            whatsappAlert.innerHTML = `
-                <strong>Quick WhatsApp Option:</strong><br>
-                <a href="${whatsappUrl}" target="_blank" class="btn btn-success btn-sm mt-2">
-                    <i class="fab fa-whatsapp me-1"></i> Send via WhatsApp
-                </a>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            // Add to contact form
-            const contactForm = document.querySelector('.contact-form');
-            if (contactForm) {
-                contactForm.appendChild(whatsappAlert);
-            }
-        }, 4000);
-        
-        // Also log the details for easy copying
-        console.log('Appointment Request Details:', contactInfo);
-    }
 
     // Add WhatsApp integration (optional)
     function addWhatsAppButton() {
@@ -414,9 +278,10 @@ Message: ${message || 'No additional message'}`;
         whatsappButton.href = 'https://wa.me/919970952725?text=Hi, I would like to book an appointment with Dr. Prajyot Wagh';
         whatsappButton.className = 'btn btn-success position-fixed';
         whatsappButton.style.cssText = 'bottom: 20px; right: 20px; z-index: 1000; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);';
-        whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i>';
+        whatsappButton.innerHTML = '<i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>';
         whatsappButton.title = 'Chat on WhatsApp';
-        
+        whatsappButton.target = '_blank';
+
         document.body.appendChild(whatsappButton);
     }
 
@@ -442,7 +307,7 @@ Message: ${message || 'No additional message'}`;
     }
 
     // Add keyboard navigation support
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         // Escape key to close mobile menu
         if (e.key === 'Escape' && navbarCollapse && navbarCollapse.classList.contains('show')) {
             navbarCollapse.classList.remove('show');
@@ -452,14 +317,14 @@ Message: ${message || 'No additional message'}`;
     // Test hero section buttons
     const heroButtons = document.querySelectorAll('.hero-section .btn');
     console.log('Hero buttons found:', heroButtons.length);
-    
+
     heroButtons.forEach((btn, index) => {
         console.log(`Button ${index}:`, btn.textContent.trim(), btn.href);
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             console.log('Hero button clicked:', this.textContent.trim());
         });
     });
-    
+
     // Simple button click logging
     console.log('Navigation setup complete - buttons should work with CSS smooth scrolling');
 
@@ -468,7 +333,7 @@ Message: ${message || 'No additional message'}`;
         console.log('Testing EmailJS...');
         console.log('Current domain:', window.location.hostname);
         console.log('Protocol:', window.location.protocol);
-        
+
         if (typeof emailjs !== 'undefined') {
             console.log('EmailJS is loaded successfully');
             console.log('EmailJS version:', emailjs.version || 'Unknown');
@@ -477,10 +342,10 @@ Message: ${message || 'No additional message'}`;
             console.error('This might be due to CORS issues on GitHub Pages');
         }
     }
-    
+
     // Run test when page loads
     testEmailJS();
-    
+
     // Check if we're on GitHub Pages
     if (window.location.hostname.includes('github.io')) {
         console.log('Running on GitHub Pages - EmailJS may have CORS issues');
@@ -495,5 +360,5 @@ Message: ${message || 'No additional message'}`;
         }, 3000);
     }
 
-    console.log('Adopt The Ayurveda website loaded successfully!');
-}); 
+    console.log('Vighnaharta Clinic website loaded successfully!');
+});
