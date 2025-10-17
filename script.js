@@ -14,22 +14,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Simple navigation - let browser handle it naturally with CSS smooth scrolling
     const navLinks = document.querySelectorAll('a[href^="#"]');
-    console.log('Found navigation links:', navLinks.length);
+    // console.log('Found navigation links:', navLinks.length);
 
     navLinks.forEach((link, index) => {
-        console.log(`Link ${index}:`, link.href, link.textContent.trim());
+        // console.log(`Link ${index}:`, link.href, link.textContent.trim());
 
         // Just add a click handler for logging, but don't prevent default behavior
         link.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
 
-            console.log('Clicked link:', targetId, 'Target section:', targetSection);
+            // console.log('Clicked link:', targetId, 'Target section:', targetSection);
 
             if (targetSection) {
-                console.log('Target section found, browser will handle navigation');
+                // console.log('Target section found, browser will handle navigation');
             } else {
-                console.error('Target section not found:', targetId);
+                // console.error('Target section not found:', targetId);
             }
         });
     });
@@ -316,30 +316,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Test hero section buttons
     const heroButtons = document.querySelectorAll('.hero-section .btn');
-    console.log('Hero buttons found:', heroButtons.length);
+    // console.log('Hero buttons found:', heroButtons.length);
 
     heroButtons.forEach((btn, index) => {
-        console.log(`Button ${index}:`, btn.textContent.trim(), btn.href);
+        // console.log(`Button ${index}:`, btn.textContent.trim(), btn.href);
         btn.addEventListener('click', function (e) {
-            console.log('Hero button clicked:', this.textContent.trim());
+            // console.log('Hero button clicked:', this.textContent.trim());
         });
     });
 
     // Simple button click logging
-    console.log('Navigation setup complete - buttons should work with CSS smooth scrolling');
+    // console.log('Navigation setup complete - buttons should work with CSS smooth scrolling');
 
     // Test EmailJS functionality
     function testEmailJS() {
-        console.log('Testing EmailJS...');
-        console.log('Current domain:', window.location.hostname);
-        console.log('Protocol:', window.location.protocol);
+        // console.log('Testing EmailJS...');
+        // console.log('Current domain:', window.location.hostname);
+        // console.log('Protocol:', window.location.protocol);
 
         if (typeof emailjs !== 'undefined') {
-            console.log('EmailJS is loaded successfully');
-            console.log('EmailJS version:', emailjs.version || 'Unknown');
+            // console.log('EmailJS is loaded successfully');
+            // console.log('EmailJS version:', emailjs.version || 'Unknown');
         } else {
-            console.error('EmailJS is not loaded');
-            console.error('This might be due to CORS issues on GitHub Pages');
+            // console.error('EmailJS is not loaded');
+            // console.error('This might be due to CORS issues on GitHub Pages');
         }
     }
 
@@ -348,17 +348,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if we're on GitHub Pages
     if (window.location.hostname.includes('github.io')) {
-        console.log('Running on GitHub Pages - EmailJS may have CORS issues');
+        // console.log('Running on GitHub Pages - EmailJS may have CORS issues');
         // Add a small delay to allow fallback CDN to load
         setTimeout(() => {
             if (typeof emailjs === 'undefined') {
-                console.warn('EmailJS still not loaded after fallback attempt');
-                console.warn('Form will use fallback methods for email sending');
+                // console.warn('EmailJS still not loaded after fallback attempt');
+                // console.warn('Form will use fallback methods for email sending');
             } else {
-                console.log('EmailJS loaded successfully on GitHub Pages');
+                // console.log('EmailJS loaded successfully on GitHub Pages');
             }
         }, 3000);
     }
 
-    console.log('Vighnaharta Clinic website loaded successfully!');
+    // console.log('Vighnaharta Clinic website loaded successfully!');
 });
