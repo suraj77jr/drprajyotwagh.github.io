@@ -3,7 +3,7 @@
 // === Formspree Configuration ===
 const FORMSPREE_CONFIG = {
     ENDPOINT: 'https://formspree.io/f/xovkybqp',
-    TO_EMAIL: 'suraj77jr@gmail.com'
+    TO_EMAIL: 'waghprajyot2@gmail.com'
 };
 
 // === Active Email Method ===
