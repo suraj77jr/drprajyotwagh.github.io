@@ -208,6 +208,57 @@ footer {
     background: linear-gradient(45deg, #212529, #343a40);
 }
 
+/* Ensure footer is positioned relative for absolute placement */
+footer {
+    position: relative;
+}
+
+/* Remove underlines on social links */
+.social-icons a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Enlarge icons on hover */
+.social-icons a:hover {
+    transform: scale(1.2);
+    color: #20c997 !important;
+    /* Accent color */
+}
+
+/* Ensure no dot or default marker */
+.social-icons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Compact map styling */
+.map-compact {
+    height: 200px;
+    overflow: hidden;
+}
+
+.map-compact iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 768px) {
+    .map-compact {
+        max-width: 100%;
+        margin-left: 0 !important;
+    }
+}
+
 @media (max-width: 576px) {
     h1 {
         font-size: 1.75rem;
@@ -279,6 +330,12 @@ footer {
     }
 }
 
+@media (max-width: 576px) {
+    .social-icons {
+        text-align: center;
+        margin-top: 1rem;
+    }
+}
 
 html {
     scroll-behavior: smooth;
