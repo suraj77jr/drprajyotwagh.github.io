@@ -285,22 +285,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Add WhatsApp integration (optional)
-    function addWhatsAppButton() {
-        const whatsappButton = document.createElement('a');
-        whatsappButton.href = 'https://wa.me/919970952725?text=Hi, I would like to book an appointment with Dr. Prajyot Wagh';
-        whatsappButton.className = 'btn btn-success position-fixed';
-        whatsappButton.style.cssText = 'bottom: 20px; right: 20px; z-index: 1000; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);';
-        whatsappButton.innerHTML = '<i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>';
-        whatsappButton.title = 'Chat on WhatsApp';
-        whatsappButton.target = '_blank';
-
-        document.body.appendChild(whatsappButton);
-    }
-
-    // Add WhatsApp button
-    addWhatsAppButton();
-
     // Performance optimization: Lazy load images (if any are added later)
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
