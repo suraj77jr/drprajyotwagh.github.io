@@ -157,6 +157,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
+
+        document.addEventListener('click', function (event) {
+            if (window.innerWidth < 992 && navbarCollapse.classList.contains('show') &&
+                !event.target.closest('#mainNav')) {
+                const collapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                if (collapse) {
+                    collapse.hide();
+                } else {
+                    navbarCollapse.classList.remove('show');
+                }
+                navbarToggler.setAttribute('aria-expanded', 'false');
+            }
+        });
     }
 
     // Add loading animation to page elements

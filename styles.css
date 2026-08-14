@@ -144,6 +144,7 @@ a {
     border: none;
     color: #fff;
     box-shadow: 0 4px 14px rgba(30, 122, 76, 0.4);
+    white-space: nowrap;
 }
 
 .btn-call:hover {
@@ -270,7 +271,8 @@ a {
 /* ===== About Section ===== */
 .about-img {
     max-width: 100%;
-    height: auto;
+    height: 360px;
+    object-fit: cover;
     box-shadow: 0 15px 35px rgba(47, 82, 51, 0.2);
 }
 
@@ -611,13 +613,14 @@ footer h5 {
     align-items: center;
     justify-content: center;
     font-size: 1.7rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: none;
     transition: transform 0.3s ease;
 }
 
 .whatsapp-float:hover {
     transform: scale(1.08);
     color: #fff;
+    box-shadow: none;
 }
 
 @media (min-width: 992px) {
@@ -648,6 +651,7 @@ footer h5 {
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
+    white-space: nowrap;
 }
 
 .mobile-cta-btn.call {
@@ -662,6 +666,32 @@ footer h5 {
 
 /* ===== Responsive Tweaks ===== */
 @media (max-width: 576px) {
+    .hero-section {
+        text-align: center;
+    }
+
+    .hero-section .d-flex {
+        align-items: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .about-img {
+        height: 260px;
+    }
+
+    .service-card,
+    .therapy-card {
+        text-align: center;
+    }
+
+    .service-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     p.lead {
         font-size: 0.95rem;
     }
@@ -679,6 +709,12 @@ footer h5 {
     .contact-item i {
         margin-bottom: 0.5rem;
         margin-right: 0;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar .btn-call {
+        display: none;
     }
 }
 
